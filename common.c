@@ -2,6 +2,23 @@
 #include "php.h"
 
 
+
+zval *my_get_class_instance(zend_class_entry *ce, const char *instance_name, int name_length){
+	zval *instance;
+
+	instance = zend_read_static_property(ce, instance_name, name_length, 0 TSRMLS_CC);//读取class的static属性
+	if (IS_OBJECT == Z_TYPE_P(instance) && instance_function(Z_OBJCE_P(instance), ce TSRMLS_CC)) {//判断instance是否是object，并且是属于ce类型
+		return instance;
+	}
+
+	MAKE_STD_ZVAL(instance);//初始化zval
+	object_init_ex(instance, ce);//用instance初始化ce
+	zend_update_static_property(ce, instance_name, name_length, instance TSRMLS_CC);//更新值
+
+	return instance;
+}
+
+
 void my_var_dump(zval *val) {
 	zval *function_name, *return_val;
 

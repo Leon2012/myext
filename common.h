@@ -22,7 +22,7 @@ ZEND_END_ARG_INFO()
 
 
 #define MY_MODULE_STARTUP(module) \
-		ZEND_MODULE_STARTUP_N(my_##module)(INIT_FUNC_ARGS_PASSTHRU);
+		ZEND_MODULE_STARTUP_N(my_##module)(INIT_FUNC_ARGS_PASSTHRU)
 
 #define MY_MODULE_STARTUP_FUNCTION(module) \
 		PHP_MINIT_FUNCTION(my_##module)
@@ -38,14 +38,22 @@ ZEND_END_ARG_INFO()
  									zval *params[] TSRMLS_DC)
 */
 #define MY_CALL_USER_FUNCTION(function_name, retval_ptr, params) \
-		call_user_function(CG(funcion_table), NULL, function_name, retval_ptr, sizeof(params) / sizeof(zval *), &params TSRMLS_CC);
+		call_user_function(CG(funcion_table), NULL, function_name, retval_ptr, sizeof(params) / sizeof(zval *), &params TSRMLS_CC)
 
 
 #define MY_CALL_CLASS_FUNCTION(function_name, retval_ptr, params) \
 		call_user_function(NULL, &getThis(), function_name, retval_ptr, sizeof(params) / sizeof(zval *), params TSRMLS_CC)
 
 
+#define MY_CLASS_INSTANCE(ce, name) \
+		my_get_class_instance(ce, ZEND_STRL(name))
+
+
 void my_dump_zval(zval *val);
 void my_var_dump(zval *val);
+zval *my_get_class_instance(zend_class_entry *ce, const char *instance_name, int name_length);
+
+
+
 
 #endif

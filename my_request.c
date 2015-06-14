@@ -55,12 +55,14 @@ static zend_function_entry my_request_methods[] = {
 
 
 
-MY_MODULE_STARTUP_FUNCTION(request) {
+PHP_MINIT_FUNCTION(my_request) {
 	MY_REGISTER_INTERNAL_CLASS(my_request_ce, "Request", my_request_methods);
 
 	my_request_ce->create_object = my_request_object_ctor;
 	memcpy(&my_request_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
 	my_request_handlers.clone_obj = NULL;
+
+	return SUCCESS;
 }
 
 

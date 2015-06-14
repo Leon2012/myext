@@ -2,7 +2,7 @@ PHP_ARG_WITH(myext, for myext support,
 [  --with-myext             Include myext support])
 
 if test "$PHP_MYEXT" != "no"; then
-  ext_files="myext.c common.c my_array_api.c my_request.c"
+  ext_files="myext.c common.c my_array_api.c my_request.c my_instance_class.c"
   PHP_NEW_EXTENSION(myext, $ext_files, $ext_shared)
 fi
 
